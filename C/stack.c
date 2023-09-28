@@ -77,6 +77,8 @@ void* pop(Stack* self) {
 	Node* temp = self->p_top;
 	self->p_top = self->p_top->p_next;
 
+	temp->data = NULL;
+	temp->p_next = NULL;
 	free(temp);
 	self->size--;
 
