@@ -18,10 +18,13 @@ void init(Stack* stack) {
 void delete(Stack* stack) {
 	while (stack->p_top != NULL) {
 		Node* temp = stack->p_top;
-		stack->p_top = stack->p_top->p_next;
+		stack->p_top = temp->p_next;
+
 		temp->data = NULL;
+		free(temp->data);
 		temp->p_next = NULL;
 		free(temp);
+
 		stack->size--;
 	}
 
@@ -34,20 +37,36 @@ void delete(Stack* stack) {
  *
  * @param self A pointer to the stack.
  * @param data The data to be added to the stack.
+ * @param size The size of the data to be added to the stack.
+ * @return 0 on success, -1 on failure.
  */
-void push(Stack* self, void* data) {
+int push(Stack* self, void* data, size_t size) {
 	Node* node = (Node*) malloc(sizeof(Node));
+
 	if (node == NULL) {
 		printf("Error allocating new node to the stack. Exiting...\n");
 		delete(self);
-		exit(1);
+		return -1;
 	}
 
-	node->data = data;
+	node->size = size;
+	node->data = malloc(size);
+
+	if (node->data == NULL) {
+		printf("Error allocating new node to the stack. Exiting...\n");
+		free(node->data);
+		free(node);
+		delete(self);
+		return -1;
+	}
+
+	memcpy(node->data, data, size);
 	node->p_next = self->p_top;
 
 	self->p_top = node;
 	self->size++;
+
+	return 0;
 }
 
 /**
@@ -73,14 +92,17 @@ void* pop(Stack* self) {
 		exit(1);
 	}
 
-	void* data = self->p_top->data;
 	Node* temp = self->p_top;
-	self->p_top = self->p_top->p_next;
+	void* data = temp->data;
+
+	self->p_top = temp->p_next;
+	self->size--;
 
 	temp->data = NULL;
+	free(temp->data);
+
 	temp->p_next = NULL;
 	free(temp);
-	self->size--;
 
 	return data;
 }
@@ -121,15 +143,15 @@ void test(Stack* self) {
 	char value8 = '8';
 	char value9 = '9';
 
-	push(self, &value1);
-	push(self, &value2);
-	push(self, &value3);
-	push(self, &value4);
-	push(self, &value5);
-	push(self, &value6);
-	push(self, &value7);
-	push(self, &value8);
-	push(self, &value9);
+	push(self, &value1, sizeof(value1));
+	push(self, &value2, sizeof(value2));
+	push(self, &value3, sizeof(value3));
+	push(self, &value4, sizeof(value4));
+	push(self, &value5, sizeof(value5));
+	push(self, &value6, sizeof(value6));
+	push(self, &value7, sizeof(value7));
+	push(self, &value8, sizeof(value8));
+	push(self, &value9, sizeof(value9));
 
 	assert(isEmpty(self) == false);
 

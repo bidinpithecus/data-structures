@@ -4,18 +4,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 
 /**
- * data: data stored in the Node.
- * p_next: Pointer to the next Node in the Stack.
+ * data: Data stored in the node.
+ * p_next: Pointer to the next node in the stack.
 */
 typedef struct Node {
 	void* data;
+	size_t size;
 	struct Node* p_next;
 } Node;
 
 /**
- * Data structure following LIFO restriction.
+ * Polymorphic data structure following LIFO restriction.
  *
  * size: Number of elements in the stack
  * p_top: Pointer to the top (most recent) element in the stack.
@@ -30,7 +32,7 @@ bool isEmpty(Stack*);
 
 void delete(Stack*);
 void init(Stack*);
-void push(Stack*, void*);
+int push(Stack*, void*, size_t);
 void test(Stack*);
 
 void* peek(Stack*);
