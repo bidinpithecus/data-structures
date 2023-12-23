@@ -8,13 +8,14 @@
 
 /**
  * data: Data stored in the node.
+ * size: Size in byets of the data stored.
  * p_next: Pointer to the next node in the stack.
 */
-typedef struct Node {
+typedef struct NodeStack {
 	void* data;
 	size_t size;
-	struct Node* p_next;
-} Node;
+	struct NodeStack* p_next;
+} NodeStack;
 
 /**
  * Polymorphic data structure following LIFO restriction.
@@ -24,16 +25,16 @@ typedef struct Node {
 */
 typedef struct Stack {
 	int size;
-	Node* p_top;
+	NodeStack* p_top;
 
 } Stack;
 
-bool isEmpty(Stack*);
+bool isStackEmpty(Stack*);
 
-void delete(Stack*);
-void init(Stack*);
-int push(Stack*, void*, size_t);
-void test(Stack*);
+void deleteStack(Stack*);
+void initStack(Stack*);
+int pushStack(Stack*, void*, size_t);
+void testStack(Stack*);
 
-void* peek(Stack*);
-void* pop(Stack*);
+void* peekStack(Stack*);
+void* popStack(Stack*);

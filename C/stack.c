@@ -5,7 +5,7 @@
  *
  * @param stack A pointer to the stack to be initialized.
  */
-void init(Stack* stack) {
+void initStack(Stack* stack) {
 	stack->size = 0;
 	stack->p_top = NULL;
 }
@@ -15,9 +15,9 @@ void init(Stack* stack) {
  *
  * @param stack A pointer to the stack to be deleted.
  */
-void delete(Stack* stack) {
+void deleteStack(Stack* stack) {
 	while (stack->p_top != NULL) {
-		Node* temp = stack->p_top;
+		NodeStack* temp = stack->p_top;
 		stack->p_top = temp->p_next;
 
 		temp->data = NULL;
@@ -40,12 +40,12 @@ void delete(Stack* stack) {
  * @param size The size of the data to be added to the stack.
  * @return 0 on success, -1 on failure.
  */
-int push(Stack* self, void* data, size_t size) {
-	Node* node = (Node*) malloc(sizeof(Node));
+int pushStack(Stack* self, void* data, size_t size) {
+	NodeStack* node = (NodeStack*) malloc(sizeof(NodeStack));
 
 	if (node == NULL) {
 		printf("Error allocating new node to the stack. Exiting...\n");
-		delete(self);
+		deleteStack(self);
 		return -1;
 	}
 
@@ -56,7 +56,7 @@ int push(Stack* self, void* data, size_t size) {
 		printf("Error allocating new node to the stack. Exiting...\n");
 		free(node->data);
 		free(node);
-		delete(self);
+		deleteStack(self);
 		return -1;
 	}
 
@@ -75,7 +75,7 @@ int push(Stack* self, void* data, size_t size) {
  * @param self A pointer to the stack.
  * @return true if the stack is empty, false otherwise.
  */
-bool isEmpty(Stack* self) {
+bool isStackEmpty(Stack* self) {
 	return self->size == 0;
 }
 
@@ -85,14 +85,14 @@ bool isEmpty(Stack* self) {
  * @param self A pointer to the stack.
  * @return The data of the element removed from the stack.
  */
-void* pop(Stack* self) {
-	if (isEmpty(self)) {
+void* popStack(Stack* self) {
+	if (isStackEmpty(self)) {
 		printf("Can't pop an empty Stack. Exiting...\n");
-		delete(self);
+		deleteStack(self);
 		exit(1);
 	}
 
-	Node* temp = self->p_top;
+	NodeStack* temp = self->p_top;
 	void* data = temp->data;
 
 	self->p_top = temp->p_next;
@@ -113,10 +113,10 @@ void* pop(Stack* self) {
  * @param self A pointer to the stack.
  * @return The data of the element at the top of the stack.
  */
-void* peek(Stack* self) {
-	if (isEmpty(self)) {
+void* peekStack(Stack* self) {
+	if (isStackEmpty(self)) {
 		printf("Can't peek an empty Stack. Exiting...\n");
-		delete(self);
+		deleteStack(self);
 		exit(1);
 	}
 
@@ -128,8 +128,8 @@ void* peek(Stack* self) {
  *
  * @param self A pointer to the stack.
  */
-void test(Stack* self) {
-	assert(isEmpty(self) == true);
+void testStack(Stack* self) {
+	assert(isStackEmpty(self) == true);
 
 	int value1 = 10;
 	int value2 = 20;
@@ -143,40 +143,40 @@ void test(Stack* self) {
 	char value8 = '8';
 	char value9 = '9';
 
-	push(self, &value1, sizeof(value1));
-	push(self, &value2, sizeof(value2));
-	push(self, &value3, sizeof(value3));
-	push(self, &value4, sizeof(value4));
-	push(self, &value5, sizeof(value5));
-	push(self, &value6, sizeof(value6));
-	push(self, &value7, sizeof(value7));
-	push(self, &value8, sizeof(value8));
-	push(self, &value9, sizeof(value9));
+	pushStack(self, &value1, sizeof(value1));
+	pushStack(self, &value2, sizeof(value2));
+	pushStack(self, &value3, sizeof(value3));
+	pushStack(self, &value4, sizeof(value4));
+	pushStack(self, &value5, sizeof(value5));
+	pushStack(self, &value6, sizeof(value6));
+	pushStack(self, &value7, sizeof(value7));
+	pushStack(self, &value8, sizeof(value8));
+	pushStack(self, &value9, sizeof(value9));
 
-	assert(isEmpty(self) == false);
+	assert(isStackEmpty(self) == false);
 
-	assert(*(char*)peek(self) == '9');
+	assert(*(char*)peekStack(self) == '9');
 
-	assert(*(char*)pop(self) == '9');
-	assert(*(char*)pop(self) == '8');
-	assert(*(char*)pop(self) == '7');
-	assert(*(float*)pop(self) == 30.6F);
-	assert(*(float*)pop(self) == 20.5F);
-	assert(*(float*)pop(self) == 10.4F);
-	assert(*(int*)pop(self) == 30);
-	assert(*(int*)pop(self) == 20);
-	assert(*(int*)pop(self) == 10);
+	assert(*(char*)popStack(self) == '9');
+	assert(*(char*)popStack(self) == '8');
+	assert(*(char*)popStack(self) == '7');
+	assert(*(float*)popStack(self) == 30.6F);
+	assert(*(float*)popStack(self) == 20.5F);
+	assert(*(float*)popStack(self) == 10.4F);
+	assert(*(int*)popStack(self) == 30);
+	assert(*(int*)popStack(self) == 20);
+	assert(*(int*)popStack(self) == 10);
 
-	assert(isEmpty(self) == true);
+	assert(isStackEmpty(self) == true);
 
 	printf("Stack passed in every assertion made.\n");
 }
 
-int main(int argc, char** argv) {
+int main(void) {
 	Stack* stack = (Stack*) malloc(sizeof(Stack));
-	init(stack);
-	test(stack);
-	delete(stack);
+	initStack(stack);
+	testStack(stack);
+	deleteStack(stack);
 
 	return 0;
 }
