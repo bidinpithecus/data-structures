@@ -30,30 +30,22 @@ class Deque {
     inline Node* getTail() const { return this->tail; }
 
     inline T& front() {
-      if (empty()) {
-        throw std::out_of_range("Deque is empty");
-      }
+      if (empty()) { throw std::out_of_range("Deque is empty"); }
       return this->head->value;
     }
 
     inline const T& front() const {
-      if (empty()) {
-        throw std::out_of_range("Deque is empty");
-      }
+      if (empty()) { throw std::out_of_range("Deque is empty"); }
       return this->head->value;
     }
 
     inline T& back() {
-      if (empty()) {
-        throw std::out_of_range("Deque is empty");
-      }
+      if (empty()) { throw std::out_of_range("Deque is empty"); }
       return this->tail->value;
     }
 
     inline const T& back() const {
-      if (empty()) {
-        throw std::out_of_range("Deque is empty");
-      }
+      if (empty()) { throw std::out_of_range("Deque is empty"); }
       return this->tail->value;
     }
 
