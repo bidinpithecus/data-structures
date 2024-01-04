@@ -53,3 +53,5 @@ dkms.conf
 
 stack
 .vscode/
+
+.DS_Store
