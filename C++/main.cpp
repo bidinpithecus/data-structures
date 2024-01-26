@@ -2,6 +2,7 @@
 #include <chrono>
 #include <iomanip>
 #include <stdexcept>
+#include "vector.hpp"
 
 bool test_deque() {
   int intArr[] = { 10, 20, 30, 40, 50, 60, 70, 80, 90 };
@@ -68,7 +69,17 @@ void run_deque() {
 }
 
 int main(void) {
-  run_deque();
+  Vector<int> v = { 8, 4, 5, 9 };
+
+  v.push_back(6);
+  v.push_back(9);
+
+  v[2] = -1;
+
+  // for (size_t i = 0; i < v.size(); i++)
+  for (auto n : v)
+    std::cout << n << ' ';
+  std::cout << '\n';
 
   return 0;
 }
